@@ -5,6 +5,12 @@ function GuessInput({ handleGuessSubmit }) {
 
   function handleSubmit(event) {
     event.preventDefault();
+
+    if (guess.length !== 5) {
+      alert("Guess must be 5 letters long");
+      return;
+    }
+
     handleGuessSubmit(guess);
     setGuess("");
   }
