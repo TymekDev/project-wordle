@@ -1,17 +1,13 @@
 import { NUM_OF_LETTERS } from "../../constants";
 import { range } from "../../utils";
 
-function Guess({ guess }) {
-  const letters = !!guess
-    ? guess.split("")
-    : range(NUM_OF_LETTERS).map(() => "");
-
+function Guess({ checkedGuess }) {
   return (
     <p className="guess">
-      {letters.map((letter, index) => {
+      {range(NUM_OF_LETTERS).map((index) => {
         return (
           <span key={index} className="cell">
-            {letter}
+            {checkedGuess[index]?.letter}
           </span>
         );
       })}
