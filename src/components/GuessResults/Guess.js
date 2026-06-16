@@ -1,7 +1,10 @@
+import { NUM_OF_LETTERS } from "../../constants";
 import { range } from "../../utils";
 
 function Guess({ guess }) {
-  const letters = !!guess ? guess.split("") : range(5).map(() => "");
+  const letters = !!guess
+    ? guess.split("")
+    : range(NUM_OF_LETTERS).map(() => "");
 
   return (
     <p className="guess">
