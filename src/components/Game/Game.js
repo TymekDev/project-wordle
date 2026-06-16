@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
-import { sample } from "../../utils";
+import { range, sample } from "../../utils";
+import { NUM_OF_GUESSES_ALLOWED } from "../../constants";
 import { WORDS } from "../../data";
 import GuessInput from "./GuessInput";
 import GuessResults from "../GuessResults";
@@ -11,10 +12,23 @@ const answer = sample(WORDS);
 console.info({ answer });
 
 function Game() {
-  const [guesses, setGuesses] = useState([]);
+  const [guesses, setGuesses] = useState(
+    range(NUM_OF_GUESSES_ALLOWED).map(() => ({
+      id: crypto.randomUUID(),
+      guess: null,
+    }))
+  );
 
   function handleGuessSubmit(guess) {
-    setGuesses([...guesses, { id: crypto.randomUUID(), guess }]);
+    const nextIndex = guesses.findIndex(({ guess }) => guess === null);
+    if (nextIndex === -1) {
+      alert("No more guesses allowed");
+      return;
+    }
+
+    setGuesses(
+      guesses.toSpliced(nextIndex, 1, { ...guesses[nextIndex], guess })
+    );
   }
 
   return (
