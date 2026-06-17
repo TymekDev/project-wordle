@@ -7,12 +7,10 @@ import GuessInput from "./GuessInput";
 import GuessResults from "../GuessResults";
 import Banner from "../Banner/Banner";
 
-// Pick a random word on every pageload.
-const answer = sample(WORDS);
-// To make debugging easier, we'll log the solution in the console.
-console.info({ answer });
-
 function Game() {
+  const [answer, setAnswer] = useState(sample(WORDS));
+  console.info({ answer });
+
   const [guesses, setGuesses] = useState(
     range(NUM_OF_GUESSES_ALLOWED).map(() => ({
       id: crypto.randomUUID(),
@@ -36,8 +34,15 @@ function Game() {
     );
   }
 
+  function resetGame() {
+    setAnswer(sample(WORDS));
+    const emptyGuesses = guesses.map(({ id }) => ({ id, guess: null }));
+    setGuesses(emptyGuesses);
+  }
+
   return (
     <>
+      <button onClick={resetGame}>New Game</button>
       <GuessResults guesses={guesses} answer={answer} />
       <GuessInput
         handleGuessSubmit={handleGuessSubmit}
